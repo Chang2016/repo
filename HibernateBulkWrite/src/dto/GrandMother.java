@@ -2,7 +2,6 @@ package dto;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +17,7 @@ public class GrandMother {
 	private int id;
 	private String name;
 	private int age;
-	@OneToMany(mappedBy="mother", cascade = {CascadeType.ALL})
+	@OneToMany(mappedBy="mother")//, cascade = {CascadeType.ALL})
 	private Collection<Mother> daughters = new LinkedList<Mother>();
 	
 	public GrandMother() {}
