@@ -6,47 +6,57 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.strupp.model.Car;
 import org.strupp.model.Employee;
 
-public class DataHibernateDaoImpl implements DataDao {
-
+public class CarHibernateDaoImpl implements CarDao {
+	
 	@Autowired
 	SessionFactory sessionFactory;
 
 	Session session = null;
 	Transaction tx = null;
-
+	
 	@Override
-	public boolean addEntity(Employee employee) throws Exception {
-
+	public boolean addEntity(Car car) throws Exception {
 		session = sessionFactory.openSession();
 		tx = session.beginTransaction();
-		session.save(employee);
+		session.persist(car);
 		tx.commit();
+		session.flush();
 		session.close();
-
 		return false;
 	}
 
 	@Override
-	public Employee getEntityById(long id) throws Exception {
+	public void updateEntity(Car car) throws Exception {
 		session = sessionFactory.openSession();
-		Employee employee = (Employee) session.load(Employee.class, new Long(id));
+		tx = session.beginTransaction();
+		session.update(car);
+//		session.update(employee.getCars().iterator().next());
+		tx.commit();
+		session.close();
+	}
+
+	@Override
+	public Car getEntityById(long id) throws Exception {
+		session = sessionFactory.openSession();
+		Car car = (Car) session.load(Car.class, new Long(id));
 		tx = session.getTransaction();
 		session.beginTransaction();
 		tx.commit();
-		return employee;
+		return car;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Employee> getEntityList() throws Exception {
+	public List<Car> getEntityList() throws Exception {
 		session = sessionFactory.openSession();
 		tx = session.beginTransaction();
-		List<Employee> employeeList = session.createCriteria(Employee.class).list();
+		List<Car> carList = session.createCriteria(Car.class).list();
 		tx.commit();
 		session.close();
-		return employeeList;
+		return carList;
 	}
 
 	@Override

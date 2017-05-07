@@ -44,11 +44,18 @@ public class Employee implements Serializable {
 	@Column(name = "phone")
 	private String phone;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE }, mappedBy = "employee")
+	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "employee")
 	@JsonManagedReference
 	@JsonSerialize(using = CarSerializer.class)
 //	@JsonDeserialize(using = CarDeserializer.class)
 	private List<Car> cars = new LinkedList<Car>();
+	
+//	public void addCar(Car car) {
+//		if(car != null) {
+//			this.cars.add(car);
+//			car.setEmployee(this);
+//		}
+//	}
 	
 	public long getId() {
 		return id;

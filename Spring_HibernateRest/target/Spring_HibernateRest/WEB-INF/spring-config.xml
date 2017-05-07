@@ -44,6 +44,6 @@
  <bean id="persistenceExceptionTranslationPostProcessor"  
   class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />  
   
- <bean id="dataDao" class="org.strupp.dao.DataDaoImpl"></bean>  
+ <bean id="employeeDao" class="org.strupp.dao.DataDaoImpl"></bean>  
  <bean id="dataServices" class="org.strupp.services.DataServicesImpl"></bean>  
 </beans>

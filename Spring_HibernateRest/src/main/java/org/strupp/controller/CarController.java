@@ -11,72 +11,79 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.strupp.model.Car;
 import org.strupp.model.Employee;
 import org.strupp.model.Status;
-import org.strupp.services.DataServices;
+import org.strupp.services.CarServices;
+import org.strupp.services.EmployeeServices;
 
 @Controller
-@RequestMapping("/employee")
-public class RestController {
-
+@RequestMapping("/car")
+public class CarController {
 	@Autowired
-	DataServices dataServices;
+	CarServices carServices;
 
-	static final Logger logger = Logger.getLogger(RestController.class);
+	static final Logger logger = Logger.getLogger(CarController.class);
 
 	/* Submit form in Spring Restful Services */
 	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Status addEmployee(final @RequestBody Employee employee) {
+	public @ResponseBody Status addEmployee(final @RequestBody Car car) {
 		try {
-			employee.getCars().forEach(car -> {
-				if(car.getId() == 0) {
-					car.setEmployee(employee);
-				}
-			});
-			dataServices.addEntity(employee);
-			return new Status(1, "Employee added Successfully !");
+			carServices.addEntity(car);
+			return new Status(1, "car added Successfully !");
 		} catch (Exception e) {
 			 e.printStackTrace();
 			return new Status(0, e.toString());
 		}
 
 	}
-
+	
+	@RequestMapping(value = "update/{id}", method = RequestMethod.PUT)
+	public @ResponseBody Status updateCar(final @RequestBody Car car, @PathVariable("id") long id) {
+		try {
+			car.setId(id);
+			carServices.updateCar(car);
+			return new Status(1, "Employee updated !");
+		} catch (Exception e) {
+			 e.printStackTrace();
+			return new Status(0, e.toString());
+		}
+	}
 	/* Ger a single objct in Json form in Spring Rest Services */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody Employee getEmployee(@PathVariable("id") long id) {
-		Employee employee = null;
+	public @ResponseBody Car getCar(@PathVariable("id") long id) {
+		Car car = null;
 		try {
-			employee = dataServices.getEntityById(id);
+			car = carServices.getEntityById(id);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return employee;
+		return car;
 	}
 
 	/* Getting List of objects in Json format in Spring Restful Services */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public @ResponseBody List<Employee> getEmployee() {
+	public @ResponseBody List<Car> getEmployee() {
 
-		List<Employee> employeeList = null;
+		List<Car> carList = null;
 		try {
-			employeeList = dataServices.getEntityList();
+			carList = carServices.getEntityList();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return employeeList;
+		return carList;
 	}
 
 	/* Delete an object from DB in Spring Restful Services */
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
-	public @ResponseBody Status deleteEmployee(@PathVariable("id") long id) {
+	public @ResponseBody Status deleteCar(@PathVariable("id") long id) {
 
 		try {
-			dataServices.deleteEntity(id);
-			return new Status(1, "Employee deleted Successfully !");
+			carServices.deleteCar(id);
+			return new Status(1, "Car deleted Successfully !");
 		} catch (Exception e) {
 			return new Status(0, e.toString());
 		}
