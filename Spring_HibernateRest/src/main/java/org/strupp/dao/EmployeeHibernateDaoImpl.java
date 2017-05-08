@@ -1,12 +1,13 @@
 package org.strupp.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.strupp.exception.NoSuchEmployeeException;
 import org.strupp.model.Employee;
 
 public class EmployeeHibernateDaoImpl implements EmployeeDao {
@@ -34,16 +35,27 @@ public class EmployeeHibernateDaoImpl implements EmployeeDao {
 
 		return false;
 	}
-
+	
 	@Override
-	public Employee getEntityById(long id) throws Exception {
+	public Employee getEntityById(long id) throws NoSuchEmployeeException {
 		session = sessionFactory.openSession();
-		Employee employee = (Employee) session.load(Employee.class, new Long(id));
-		tx = session.getTransaction();
-		session.beginTransaction();
-		tx.commit();
+		Query query = session.createQuery("select 1 from Employee e where e.id = :id");
+		query.setLong("id", id);
+		Employee employee = (Employee) query.uniqueResult();
+		if(employee == null)
+			throw new NoSuchEmployeeException(id);
 		return employee;
 	}
+	
+//	@Override
+//	public Employee getEntityById(long id) throws NoSuchEmployeeException {
+//		session = sessionFactory.openSession();
+//		Employee employee = (Employee) session.load(Employee.class, new Long(id));
+//		tx = session.getTransaction();
+//		session.beginTransaction();
+//		tx.commit();
+//		return employee;
+//	}
 
 	@SuppressWarnings("unchecked")
 	@Override

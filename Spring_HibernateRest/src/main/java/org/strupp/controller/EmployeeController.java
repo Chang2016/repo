@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.strupp.exception.NoSuchEmployeeException;
 import org.strupp.model.Employee;
 import org.strupp.model.Status;
 import org.strupp.services.EmployeeServices;
@@ -50,14 +51,14 @@ public class EmployeeController {
 	}
 	/* Ger a single objct in Json form in Spring Rest Services */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody Employee getEmployee(@PathVariable("id") long id) {
+	public @ResponseBody Employee getEmployee(@PathVariable("id") long id) throws NoSuchEmployeeException {
 		Employee employee = null;
-		try {
+//		try {
 			employee = employeeServices.getEntityById(id);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		return employee;
 	}
 
@@ -79,7 +80,6 @@ public class EmployeeController {
 	/* Delete an object from DB in Spring Restful Services */
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
 	public @ResponseBody Status deleteEmployee(@PathVariable("id") long id) {
-
 		try {
 			employeeServices.deleteEntity(id);
 			return new Status(1, "Employee deleted Successfully !");
@@ -88,4 +88,16 @@ public class EmployeeController {
 		}
 
 	}
+	
+//	@ExceptionHandler(NoSuchEmployeeException.class)
+//	private @ResponseBody noSuchEmployee(HttpServletRequest request, Exception ex) {
+//		logger.error("Requested URL=" + request.getRequestURL());
+//		logger.error("Exception Raised=" + ex);
+//		
+//		ExceptionJSONInfo response = new ExceptionJSONInfo();
+//		response.setUrl(request.getRequestURL().toString());
+//		response.setMessage(ex.getMessage());
+//		
+//		return response;
+//	}
 }

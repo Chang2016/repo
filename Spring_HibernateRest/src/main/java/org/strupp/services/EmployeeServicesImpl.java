@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.strupp.dao.EmployeeDao;
+import org.strupp.exception.NoSuchEmployeeException;
 import org.strupp.model.Employee;
 
 public class EmployeeServicesImpl implements EmployeeServices {
@@ -17,7 +18,7 @@ public class EmployeeServicesImpl implements EmployeeServices {
 	}
 
 	@Override
-	public Employee getEntityById(long id) throws Exception {
+	public Employee getEntityById(long id) throws NoSuchEmployeeException {
 		return employeeDao.getEntityById(id);
 	}
 

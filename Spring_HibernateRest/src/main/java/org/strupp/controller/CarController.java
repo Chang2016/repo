@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.strupp.model.Car;
-import org.strupp.model.Employee;
 import org.strupp.model.Status;
 import org.strupp.services.CarServices;
-import org.strupp.services.EmployeeServices;
 
 @Controller
 @RequestMapping("/car")

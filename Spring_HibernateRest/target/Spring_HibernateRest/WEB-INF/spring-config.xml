@@ -27,11 +27,11 @@
     <value>org.strupp.model.Car</value>
    </list>  
   </property>  
-  
+ 
   <property name="hibernateProperties">  
    <props>  
     <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>  
-    <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>  
+    <prop key="hibernate.show_sql">true</prop>  
    </props>  
   </property>  
  </bean>  
@@ -44,6 +44,9 @@
  <bean id="persistenceExceptionTranslationPostProcessor"  
   class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />  
   
- <bean id="employeeDao" class="org.strupp.dao.DataDaoImpl"></bean>  
- <bean id="dataServices" class="org.strupp.services.DataServicesImpl"></bean>  
+ <bean id="employeeDao" class="org.strupp.dao.EmployeeHibernateDaoImpl"></bean>  
+ <bean id="employeeServices" class="org.strupp.services.EmployeeServicesImpl"></bean>  
+ 
+ <bean id="carDao" class="org.strupp.dao.CarHibernateDaoImpl"></bean>  
+ <bean id="carServices" class="org.strupp.services.CarServicesImpl"></bean>
 </beans>
