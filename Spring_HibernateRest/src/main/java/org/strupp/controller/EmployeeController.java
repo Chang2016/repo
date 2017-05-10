@@ -1,6 +1,6 @@
 package org.strupp.controller;
 
-//import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*; 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*; 
 import java.util.List;
 import java.util.Set;
 
@@ -13,8 +13,10 @@ import javax.validation.ValidatorFactory;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.strupp.exception.NoSuchEmployeeException;
 import org.strupp.model.Employee;
 import org.strupp.model.Status;
+import org.strupp.representation.EmployeeResponse;
 import org.strupp.services.EmployeeServices;
 
 @RestController
@@ -72,11 +75,13 @@ public class EmployeeController {
 	
 	/* Get a single object in Json form in Spring Rest Services */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-	public Employee getEmployees(@PathVariable("id") long id) throws NoSuchEmployeeException {
+	public HttpEntity<EmployeeResponse> getEmployees(@PathVariable("id") long id) throws NoSuchEmployeeException {
 		Employee employee = null;
 		employee = employeeServices.getEntityById(id);
-//		employee.add(linkTo(methodOn(EmployeeController.class).greeting(name)).withSelfRel());
-		return employee;
+		EmployeeResponse response = new EmployeeResponse(employee.getFirstName(), employee.getLastName(), 
+				employee.getEmail(), employee.getPhone());
+		response.add(linkTo(methodOn(EmployeeController.class).getEmployees(id)).withSelfRel());
+		return new ResponseEntity<EmployeeResponse>(response, HttpStatus.OK);
 	}
 
 	/* Getting List of objects in Json format in Spring Restful Services */

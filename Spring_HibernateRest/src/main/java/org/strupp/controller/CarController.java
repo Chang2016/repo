@@ -1,10 +1,16 @@
 package org.strupp.controller;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.strupp.model.Car;
 import org.strupp.model.Status;
+import org.strupp.representation.CarResponse;
+import org.strupp.representation.EmployeeResponse;
 import org.strupp.services.CarServices;
 
 @Controller
@@ -49,15 +57,17 @@ public class CarController {
 	}
 	/* Ger a single objct in Json form in Spring Rest Services */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody Car getCar(@PathVariable("id") long id) {
+	public HttpEntity<CarResponse> getCar(@PathVariable("id") long id) {
 		Car car = null;
+		CarResponse response = null;
 		try {
 			car = carServices.getEntityById(id);
-
+			response = new CarResponse(car.getName(), car.getPrice().toString());
+			response.add(linkTo(methodOn(CarController.class).getCar(id)).withSelfRel());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return car;
+		return new ResponseEntity<CarResponse>(response, HttpStatus.OK);
 	}
 
 	/* Getting List of objects in Json format in Spring Restful Services */

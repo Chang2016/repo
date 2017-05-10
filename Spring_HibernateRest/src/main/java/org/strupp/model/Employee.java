@@ -18,7 +18,7 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-
+import org.springframework.hateoas.ResourceSupport;
 import org.strupp.serializer.CarSerializer;
 
 @Entity

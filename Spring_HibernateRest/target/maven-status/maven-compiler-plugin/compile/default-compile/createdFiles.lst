@@ -15,6 +15,7 @@ org/strupp/model/Status.class
 org/strupp/model/Car.class
 org/strupp/controller/CarController.class
 org/strupp/deserialize/CarDeserializer.class
+org/strupp/representation/EmployeeResponse.class
 org/strupp/services/CarServices.class
 org/strupp/serializer/CarSerializer.class
 org/strupp/model/Employee.class
