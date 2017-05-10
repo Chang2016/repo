@@ -39,7 +39,7 @@ public class EmployeeHibernateDaoImpl implements EmployeeDao {
 	@Override
 	public Employee getEntityById(long id) throws NoSuchEmployeeException {
 		session = sessionFactory.openSession();
-		Query query = session.createQuery("select 1 from Employee e where e.id = :id");
+		Query query = session.createQuery("select e from Employee e where e.id = :id");
 		query.setLong("id", id);
 		Employee employee = (Employee) query.uniqueResult();
 		if(employee == null)

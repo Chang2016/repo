@@ -16,11 +16,14 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 import org.strupp.serializer.CarSerializer;
 
 @Entity
 @Table(name = "employee")
-@JsonIgnoreProperties({ /*"cars",*/ "hibernateLazyInitializer", "handler" })
+//@JsonIgnoreProperties({ /*"cars",*/ "hibernateLazyInitializer", "handler" })
 public class Employee implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -31,15 +34,21 @@ public class Employee implements Serializable {
 	private long id;
 
 	@Column(name = "first_name")
+	@NotBlank(message = "firstName field can not be blank")
+    @Length(max = 45, message = "firstName should not be more than 45 characters")
 	private String firstName;
 
 	@Column(name = "last_name")
+	@NotBlank(message = "lastName field can not be blank")
+	@Length(max = 45, message = "lastName should not be more than 45 characters")
 	private String lastName;
 
 	@Column(name = "email")
+	@Length(max = 45, message = "email should not be more than 10 characters")
 	private String email;
 
 	@Column(name = "phone")
+	@Length(max = 45, message = "phone should not be more than 10 characters")
 	private String phone;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "employee")
@@ -47,13 +56,6 @@ public class Employee implements Serializable {
 	@JsonSerialize(using = CarSerializer.class)
 //	@JsonDeserialize(using = CarDeserializer.class)
 	private List<Car> cars = new LinkedList<Car>();
-	
-//	public void addCar(Car car) {
-//		if(car != null) {
-//			this.cars.add(car);
-//			car.setEmployee(this);
-//		}
-//	}
 	
 	public long getId() {
 		return id;

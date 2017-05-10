@@ -1,6 +1,7 @@
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/controller/EmployeeController.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/services/EmployeeServicesImpl.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/exception/jsonresponse/NoSuchEmployeeResponse.java
+/Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/exception/handler/NoSuchEmployeeHandler.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/exception/NoSuchEmployeeException.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/services/CarServices.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/services/EmployeeServices.java
@@ -8,8 +9,10 @@
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/exception/MalformedJsonException.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/model/Car.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/dao/EmployeeDao.java
+/Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/exception/jsonresponse/ValidationErrorDTO.java
+/Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/exception/handler/ConstraintViolationHandler.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/dao/CarDao.java
-/Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/controller/MalformedJsonHandler.java
+/Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/exception/jsonresponse/FieldErrorDTO.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/dao/CarHibernateDaoImpl.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/services/CarServicesImpl.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/controller/CarController.java

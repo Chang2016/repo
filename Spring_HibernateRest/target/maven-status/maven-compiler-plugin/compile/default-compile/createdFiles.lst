@@ -1,13 +1,16 @@
 org/strupp/services/EmployeeServicesImpl.class
-org/strupp/controller/MalformedJsonHandler.class
+org/strupp/exception/handler/ConstraintViolationHandler.class
 org/strupp/services/CarServicesImpl.class
 org/strupp/exception/NoSuchEmployeeException.class
 org/strupp/exception/jsonresponse/NoSuchEmployeeResponse.class
 org/strupp/controller/EmployeeController.class
 org/strupp/dao/CarHibernateDaoImpl.class
 org/strupp/exception/MalformedJsonException.class
+org/strupp/exception/jsonresponse/FieldErrorDTO.class
 org/strupp/dao/EmployeeDao.class
+org/strupp/exception/handler/NoSuchEmployeeHandler.class
 org/strupp/dao/CarDao.class
+org/strupp/exception/jsonresponse/ValidationErrorDTO.class
 org/strupp/model/Status.class
 org/strupp/model/Car.class
 org/strupp/controller/CarController.class

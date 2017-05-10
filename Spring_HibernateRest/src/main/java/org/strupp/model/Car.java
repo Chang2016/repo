@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "car")
@@ -26,6 +27,7 @@ public class Car implements Serializable {
 	@GeneratedValue
 	@Column(name = "id")
 	private long id;
+	@Length(max = 45)
 	private String name;
 	@Column(precision=7, scale=2)
 	private BigDecimal price;
