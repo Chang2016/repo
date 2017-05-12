@@ -1,6 +1,9 @@
 package org.strupp.controller;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*; 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +17,7 @@ import javax.validation.ValidatorFactory;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,31 +31,37 @@ import org.springframework.web.bind.annotation.RestController;
 import org.strupp.exception.NoSuchEmployeeException;
 import org.strupp.model.Employee;
 import org.strupp.model.Status;
-import org.strupp.representation.EmployeeResponse;
+import org.strupp.representation.EmployeeResource;
+import org.strupp.representation.assembler.EmployeeResourceAssembler;
 import org.strupp.services.EmployeeServices;
 
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
-
+	@Autowired
+	EmployeeResourceAssembler assembler;
+	
 	@Autowired
 	EmployeeServices employeeServices;
 	
 	static final Logger logger = Logger.getLogger(EmployeeController.class);
 	
-	/* Submit form in Spring Restful Services */
 	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Status addEmployee(@Valid final @RequestBody Employee employee, BindingResult bindingResult) {
+	public ResponseEntity<Void> addEmployee(@Valid final @RequestBody Employee employee, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			Set<ConstraintViolation<Employee>> constraintViolations = validateInput(employee);
 			throw new ConstraintViolationException(constraintViolations);
 	    } else {
 			try {
 				employeeServices.addEntity(employee);
-				return new Status(1, "Employee added Successfully !");
+				//Link zur neu erstellten Ressource im Link-Header
+				HttpHeaders headers = new HttpHeaders();
+		        headers.setLocation(linkTo(methodOn(getClass()).getEmployee(employee.getId())).toUri());
+		        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 			} catch (Exception e) {
-				 e.printStackTrace();
-				return new Status(0, e.toString());
+				e.printStackTrace();
+				HttpHeaders headers = new HttpHeaders();
+				return new ResponseEntity<Void>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 	    }
 	}
@@ -73,29 +83,29 @@ public class EmployeeController {
 	    }
 	}
 	
-	/* Get a single object in Json form in Spring Rest Services */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-	public HttpEntity<EmployeeResponse> getEmployees(@PathVariable("id") long id) throws NoSuchEmployeeException {
+	public HttpEntity<EmployeeResource> getEmployee(@PathVariable("id") long id) throws NoSuchEmployeeException {
 		Employee employee = null;
 		employee = employeeServices.getEntityById(id);
-		EmployeeResponse response = new EmployeeResponse(employee.getFirstName(), employee.getLastName(), 
-				employee.getEmail(), employee.getPhone());
-		response.add(linkTo(methodOn(EmployeeController.class).getEmployees(id)).withSelfRel());
-		return new ResponseEntity<EmployeeResponse>(response, HttpStatus.OK);
+		EmployeeResource response = assembler.toResource(employee);
+		return new ResponseEntity<EmployeeResource>(response, HttpStatus.OK);
 	}
 
-	/* Getting List of objects in Json format in Spring Restful Services */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public @ResponseBody List<Employee> getEmployee() {
+	public HttpEntity<List<EmployeeResource>> getEmployees() {
+		List<EmployeeResource> response = new ArrayList<>();
 		List<Employee> employeeList = null;
 		try {
 			employeeList = employeeServices.getEntityList();
-
+			employeeList.forEach(e -> {
+				EmployeeResource res = assembler.toResource(e);
+				response.add(res);
+			});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return employeeList;
+		return new ResponseEntity<List<EmployeeResource>>(response, HttpStatus.OK);
 	}
 
 	/* Delete an object from DB in Spring Restful Services */

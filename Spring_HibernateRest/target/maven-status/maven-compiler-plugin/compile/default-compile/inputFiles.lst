@@ -17,6 +17,7 @@
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/representation/EmployeeResponse.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/services/CarServicesImpl.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/controller/CarController.java
+/Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/representation/CarResponse.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/model/Status.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/deserialize/CarDeserializer.java
 /Users/michaelstrupp/GIT_Repo/Spring_HibernateRest/src/main/java/org/strupp/serializer/CarSerializer.java
