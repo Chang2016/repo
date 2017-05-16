@@ -1,10 +1,12 @@
+org/strupp/representation/CarResource.class
 org/strupp/services/CarServicesImpl.class
-org/strupp/representation/CarResponse.class
+org/strupp/representation/assembler/EmployeeResourceAssembler.class
 org/strupp/exception/jsonresponse/NoSuchEmployeeResponse.class
 org/strupp/dao/EmployeeDao.class
 org/strupp/exception/handler/NoSuchEmployeeHandler.class
 org/strupp/dao/CarDao.class
 org/strupp/model/Car.class
+org/strupp/representation/EmployeeResource.class
 org/strupp/serializer/CarSerializer.class
 org/strupp/services/EmployeeServices.class
 org/strupp/dao/EmployeeHibernateDaoImpl.class
@@ -19,6 +21,5 @@ org/strupp/exception/jsonresponse/ValidationErrorDTO.class
 org/strupp/model/Status.class
 org/strupp/controller/CarController.class
 org/strupp/deserialize/CarDeserializer.class
-org/strupp/representation/EmployeeResponse.class
 org/strupp/services/CarServices.class
 org/strupp/model/Employee.class
